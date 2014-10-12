@@ -5,16 +5,15 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   command = atom.config.get 'hiera-eyaml.eyamlPath'
   options ?= {}
   options.cwd ?= dir()
-  options.stdio ?= ['pipe', null, null]
+
+  if data
+    options.stdio ?= ['pipe', null, null]
   stdout ?= (data) -> console.log data.toString()
   stderr ?= (data) ->
     errorText = data.toString()
-
     if errorText.match /No such file/
       errorText += ' in ' + dir()
-
     console.error errorText
-
     new StatusView type: 'error', message: errorText
 
   bp = new BufferedProcess
@@ -25,8 +24,9 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
     stderr: stderr
     exit: exit
 
-  bp.process.stdin.write(data)
-  bp.process.stdin.end()
+  if data
+    bp.process.stdin.write(data)
+    bp.process.stdin.end()
 
 eyamlEncrypt = (text, stdout) ->
   eyamlCmd
@@ -40,8 +40,15 @@ eyamlDecrypt = (text, stdout) ->
     stdout: stdout
     data: text
 
+eyamlCreateKeys = (path, stdout) ->
+  eyamlCmd
+    args: ['createkeys', '-q']
+    stdout: stdout
+    options: { cwd: path }
+
 dir = ->
   atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
 
 module.exports.encrypt = eyamlEncrypt
 module.exports.decrypt = eyamlDecrypt
+module.exports.createKeys = eyamlCreateKeys

@@ -1,4 +1,5 @@
 eyaml = require './hiera-eyaml.coffee'
+CreateKeysView = require './create-keys-view.coffee'
 
 module.exports =
   configDefaults:
@@ -8,7 +9,7 @@ module.exports =
   activate: (state) ->
     atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @encryptSelection()
     atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @decryptSelection()
-
+    atom.workspaceView.command 'hiera-eyaml:create-keys', => @createKeys()
 
   getSelections: (call) ->
     editor = atom.workspace.getActiveEditor()
@@ -21,8 +22,12 @@ module.exports =
 
       call selectedText, stdout
 
-   encryptSelection: ->
+  encryptSelection: ->
     @getSelections eyaml.encrypt
 
   decryptSelection: ->
     @getSelections eyaml.decrypt
+
+  createKeys: ->
+    view = new CreateKeysView()
+    view.attach()

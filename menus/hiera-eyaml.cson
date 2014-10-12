@@ -4,14 +4,14 @@
       'eyaml Encrypt': 'hiera-eyaml:encrypt-selection'
       'eyaml Decrypt': 'hiera-eyaml:decrypt-selection'
 
-# 'menu': [
-#   {
-#     'label': 'Packages'
-#     'submenu': [
-#       'label': 'hiera-eyaml'
-#       'submenu': [
-#         { 'label': 'Toggle', 'command': 'hiera-eyaml:toggle' }
-#       ]
-#     ]
-#   }
-# ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Hiera eyaml'
+      'submenu': [
+        { 'label': 'Create Keys', 'command': 'hiera-eyaml:create-keys' }
+      ]
+    ]
+  }
+]
