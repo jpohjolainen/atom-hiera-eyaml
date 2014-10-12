@@ -1,0 +1,17 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+      'eyaml Encrypt': 'hiera-eyaml:encrypt-selection'
+      'eyaml Decrypt': 'hiera-eyaml:decrypt-selection'
+
+# 'menu': [
+#   {
+#     'label': 'Packages'
+#     'submenu': [
+#       'label': 'hiera-eyaml'
+#       'submenu': [
+#         { 'label': 'Toggle', 'command': 'hiera-eyaml:toggle' }
+#       ]
+#     ]
+#   }
+# ]
