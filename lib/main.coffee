@@ -1,10 +1,9 @@
 eyaml = require './hiera-eyaml.coffee'
-StatusView = require './status-view.coffee'
 
 module.exports =
   configDefaults:
     eyamlPath: 'eyaml'
-    messageTimeout: 3
+    messageTimeout: 5
 
   activate: (state) ->
     atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @encryptSelection()
@@ -19,11 +18,8 @@ module.exports =
       stdout = (data) ->
         text = data.toString().replace /\n/, ''
         editor.setTextInBufferRange(sel, text)
-      stderr = (data) ->
-        console.error data.toString()
-        new StatusView type: 'error', message: data.toString()
 
-      call selectedText, stdout, stderr
+      call selectedText, stdout
 
    encryptSelection: ->
     @getSelections eyaml.encrypt

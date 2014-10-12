@@ -1,13 +1,21 @@
 {BufferedProcess} = require 'atom'
+StatusView = require './status-view.coffee'
 
 eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   command = atom.config.get 'hiera-eyaml.eyamlPath'
   options ?= {}
-  options.cwd ?= atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
+  options.cwd ?= dir()
   options.stdio ?= ['pipe', null, null]
-
   stdout ?= (data) -> console.log data.toString()
-  stderr ?= (data) -> console.error data.toString()
+  stderr ?= (data) ->
+    errorText = data.toString()
+
+    if errorText.match /No such file/
+      errorText += ' in ' + dir()
+
+    console.error errorText
+
+    new StatusView type: 'error', message: errorText
 
   bp = new BufferedProcess
     command: command
@@ -20,19 +28,20 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   bp.process.stdin.write(data)
   bp.process.stdin.end()
 
-eyamlEncrypt = (text, stdout, stderr) ->
+eyamlEncrypt = (text, stdout) ->
   eyamlCmd
-    args: ['encrypt', '-o', 'string', '--stdin']
+    args: ['encrypt', '-q', '-o', 'string', '--stdin']
     stdout: stdout
-    stderr: stderr
     data: text
 
-eyamlDecrypt = (text, stdout, stderr) ->
+eyamlDecrypt = (text, stdout) ->
   eyamlCmd
-    args: ['decrypt', '--stdin']
+    args: ['decrypt', '-q', '--stdin']
     stdout: stdout
-    stderr: stderr
     data: text
+
+dir = ->
+  atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
 
 module.exports.encrypt = eyamlEncrypt
 module.exports.decrypt = eyamlDecrypt
