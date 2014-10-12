@@ -6,4 +6,4 @@ Package to use hiera-eyaml commands in atom.
 
 ### Hiera-eyaml keymaps
 >- `Ctrl-Alt-E` to encrypt selection
->- `Ctrl-Alt-D' to decrypt selection
+>- `Ctrl-Alt-D` to decrypt selection

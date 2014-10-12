@@ -1,7 +1,7 @@
 {BufferedProcess} = require 'atom'
 
 eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
-  command = 'eyaml'
+  command = atom.config.get 'hiera-eyaml.eyamlPath'
   options ?= {}
   options.cwd ?= atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
   options.stdio ?= ['pipe', null, null]
