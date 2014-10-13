@@ -7,3 +7,17 @@ Package to use hiera-eyaml commands in atom.
 ### Hiera-eyaml keymaps
 >- `Ctrl-Alt-E` to encrypt selection
 >- `Ctrl-Alt-D` to decrypt selection
+
+
+## Installation
+
+```shell
+cd ~/.atom/packages
+
+git clone git@github.com:jpohjolainen/atom-hiera-yaml hiera-yaml
+
+cd hiera-yaml
+
+sudo /Applications/Atom.app/Contents/Resources/app/apm/node_modules/atom-package-manager/bin/apm update
+```
+
