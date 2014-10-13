@@ -1,16 +1,14 @@
-{Subscriber} = require 'emissary'
 {$, View} = require 'atom'
 
 module.exports =
 class StatusView extends View
-  Subscriber.includeInto(this)
 
   @content = (params) ->
     @div class: 'hiera-eyaml overlay from-bottom', =>
       @div class: "#{params.type} message", params.message
 
   initialize: ->
-    @subscribe $(window), 'core:cancel', => @detach()
+    @on 'core:cancel', => @detact()
     atom.workspaceView.append(this)
     setTimeout =>
       @detach()
@@ -18,4 +16,3 @@ class StatusView extends View
 
   detach: ->
     super
-    @unsubscribe()

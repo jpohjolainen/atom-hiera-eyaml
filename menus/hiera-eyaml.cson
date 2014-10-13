@@ -1,8 +1,8 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
   '.overlayer':
-      'eyaml Encrypt': 'hiera-eyaml:encrypt-selection'
-      'eyaml Decrypt': 'hiera-eyaml:decrypt-selection'
+      'eyaml encrypt': 'hiera-eyaml:encrypt-selection'
+      'eyaml decrypt': 'hiera-eyaml:encrypt-selection'
 
 'menu': [
   {

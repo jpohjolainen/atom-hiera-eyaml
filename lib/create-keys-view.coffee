@@ -6,8 +6,7 @@ utils = require './utils'
 
 module.exports =
 class CreateKeysView extends View
-  previouslyFocusedElement: null
-  mode: null
+  prevFocus: null
 
   @content: ->
     @div class: 'hiera-eyaml overlay from-top', =>
@@ -22,26 +21,26 @@ class CreateKeysView extends View
     @error.hide()
 
   attach: ->
-    @previouslyFocusedElement = $(':focus')
+    @prevFocus = $(':focus')
     @message.text("Give a path where keys directory is created.")
     atom.workspaceView.append(this)
     @setPathText(utils.dir())
     @miniEditor.focus()
 
-  setPathText: (placeholderName) ->
+  setPathText: (text) ->
     {editor} = @miniEditor
-    editor.setText(placeholderName)
+    editor.setText(text)
     pathLength = editor.getText().length
 
   detach: ->
     return unless @hasParent()
-    @previouslyFocusedElement?.focus()
+    @prevFocus?.focus()
     super
 
   confirm: ->
-    if @validPackagePath()
+    if @validKeysPath()
       stdout = (data) =>
-        new StatusView type: 'info', message: "#{data.toString()} to #{@getPath()}/keys"
+        new StatusView type: 'success', message: "#{data.toString()} to #{@getPath()}/keys"
       eyaml.createKeys @getPath(), stdout
       @miniEditor.hide()
       @detach
@@ -49,7 +48,7 @@ class CreateKeysView extends View
   getPath: ->
     @miniEditor.getText()
 
-  validPackagePath: ->
+  validKeysPath: ->
     if not fs.existsSync(@getPath())
       @error.text("Path doesn't exist.")
       @error.show()

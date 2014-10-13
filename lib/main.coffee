@@ -11,11 +11,11 @@ module.exports =
       default: 5
 
   activate: (state) ->
-    atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @encryptSelection()
-    atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @decryptSelection()
+    atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @doSelections eyaml.encrypt
+    atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @doSelections eyaml.decrypt
     atom.workspaceView.command 'hiera-eyaml:create-keys', => @createKeys()
 
-  getSelections: (call) ->
+  doSelections: (call) ->
     editor = atom.workspace.getActiveEditor()
     for sel in editor.getSelectedBufferRanges()
       break if sel.start.isEqual(sel.end)
@@ -25,12 +25,6 @@ module.exports =
         editor.setTextInBufferRange(sel, text)
 
       call selectedText, stdout
-
-  encryptSelection: ->
-    @getSelections eyaml.encrypt
-
-  decryptSelection: ->
-    @getSelections eyaml.decrypt
 
   createKeys: ->
     view = new CreateKeysView()
