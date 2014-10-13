@@ -22,7 +22,7 @@ class CreateKeysView extends View
 
   attach: ->
     @previouslyFocusedElement = $(':focus')
-    @message.text("Enter keys path")
+    @message.text("Give a path where keys directory is created.")
     atom.workspaceView.append(this)
     @setPathText(utils.dir())
     @miniEditor.focus()
@@ -53,7 +53,8 @@ class CreateKeysView extends View
       @error.text("Path doesn't exist")
       @error.show()
       false
-    else if fs.existsSync(@getPath() + '/keys/private_key.pkcs7.pem')
+    else if fs.existsSync(@getPath() + '/keys/private_key.pkcs7.pem') or
+            fs.existsSync(@getPath() + '/keys/public_key.pkcs7.pem')
       @error.text("Keys already exists in '#{@getPath()}'")
       @error.show()
       false
