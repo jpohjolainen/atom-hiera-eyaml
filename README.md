@@ -14,9 +14,9 @@ Package to use hiera-eyaml commands in atom.
 ```shell
 cd ~/.atom/packages
 
-git clone git@github.com:jpohjolainen/atom-hiera-yaml hiera-yaml
+git clone git@github.com:jpohjolainen/atom-hiera-eyaml hiera-eyaml
 
-cd hiera-yaml
+cd hiera-eyaml
 
 sudo /Applications/Atom.app/Contents/Resources/app/apm/node_modules/atom-package-manager/bin/apm update
 ```
