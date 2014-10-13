@@ -12,9 +12,16 @@ gem install hiera-eyaml
 
 ## Usage
 
+You can encrypt or decrypt selected text with hiera-eyaml using keymaps
+ `Ctrl-Alt-E` or `Ctrl-Alt-D`. Keys are searched from `keys` directory under
+ Git repository root, project directory or directory the edited file is.
+
 You can create keys using Command Pallette and find `Hiera Eyaml: Create Keys`.
-It will then ask a directory where it will create directory `keys` and
-the public and private keys.
+You are asked the directory where `keys/` will be created with public and
+private keys.
+
+
+
 
 ### Hiera-eyaml keymaps
 >- `Ctrl-Alt-E` to encrypt selection
