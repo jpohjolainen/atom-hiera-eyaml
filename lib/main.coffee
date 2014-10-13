@@ -2,9 +2,13 @@ eyaml = require './hiera-eyaml.coffee'
 CreateKeysView = require './create-keys-view.coffee'
 
 module.exports =
-  configDefaults:
-    eyamlPath: 'eyaml'
-    messageTimeout: 5
+  config:
+    eyamlPath:
+      type: 'string'
+      default: 'eyaml'
+    messageTimeout:
+      type: 'integer'
+      default: 5
 
   activate: (state) ->
     atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @encryptSelection()

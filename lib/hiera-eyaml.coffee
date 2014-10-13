@@ -9,6 +9,7 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
 
   if data
     options.stdio ?= ['pipe', null, null]
+
   stdout ?= (data) -> console.log data.toString()
   stderr ?= (data) ->
     errorText = data.toString()

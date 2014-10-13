@@ -11,6 +11,8 @@
       'label': 'Hiera eyaml'
       'submenu': [
         { 'label': 'Create Keys', 'command': 'hiera-eyaml:create-keys' }
+        { 'label': 'Encrypt Selection', 'command': 'hiera-eyaml:encrypt-selection' }
+        { 'label': 'Decrypt Selection', 'command': 'hiera-eyaml:decrypt-selection' }
       ]
     ]
   }

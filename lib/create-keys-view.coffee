@@ -19,6 +19,7 @@ class CreateKeysView extends View
     @miniEditor.hiddenInput.on 'focusout', => @detach()
     @on 'core:confirm', => @confirm()
     @on 'core:cancel', => @detach()
+    @error.hide()
 
   attach: ->
     @previouslyFocusedElement = $(':focus')
@@ -50,12 +51,16 @@ class CreateKeysView extends View
 
   validPackagePath: ->
     if not fs.existsSync(@getPath())
-      @error.text("Path doesn't exist")
+      @error.text("Path doesn't exist.")
       @error.show()
+      setTimeout =>
+        @error.hide()
+      , atom.config.get('hiera-eyaml.messageTimeout') * 500
+
       false
     else if fs.existsSync(@getPath() + '/keys/private_key.pkcs7.pem') or
             fs.existsSync(@getPath() + '/keys/public_key.pkcs7.pem')
-      @error.text("Keys already exists in '#{@getPath()}'")
+      @error.text("Keys already exists in '#{@getPath()}'.")
       @error.show()
       false
     else
