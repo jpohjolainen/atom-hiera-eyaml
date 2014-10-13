@@ -1,9 +1,8 @@
-# path = require 'path'
-# _ = require 'underscore-plus'
 {$, BufferedProcess, EditorView, View} = require 'atom'
 fs = require 'fs'
 eyaml = require './hiera-eyaml'
 StatusView = require './status-view.coffee'
+utils = require './utils'
 
 module.exports =
 class CreateKeysView extends View
@@ -25,7 +24,7 @@ class CreateKeysView extends View
     @previouslyFocusedElement = $(':focus')
     @message.text("Enter keys path")
     atom.workspaceView.append(this)
-    @setPathText(atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath())
+    @setPathText(utils.dir())
     @miniEditor.focus()
 
   setPathText: (placeholderName) ->

@@ -1,10 +1,11 @@
 {BufferedProcess} = require 'atom'
 StatusView = require './status-view.coffee'
+utils = require './utils'
 
 eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   command = atom.config.get 'hiera-eyaml.eyamlPath'
   options ?= {}
-  options.cwd ?= dir()
+  options.cwd ?= utils.dir()
 
   if data
     options.stdio ?= ['pipe', null, null]
@@ -12,7 +13,7 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   stderr ?= (data) ->
     errorText = data.toString()
     if errorText.match /No such file/
-      errorText += ' in ' + dir()
+      errorText += ' in ' + options.cwd
     console.error errorText
     new StatusView type: 'error', message: errorText
 
@@ -45,9 +46,6 @@ eyamlCreateKeys = (path, stdout) ->
     args: ['createkeys', '-q']
     stdout: stdout
     options: { cwd: path }
-
-dir = ->
-  atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
 
 module.exports.encrypt = eyamlEncrypt
 module.exports.decrypt = eyamlDecrypt
