@@ -7,16 +7,31 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
   options ?= {}
   options.cwd ?= utils.dir()
 
+  publicKeyPath = atom.config.get 'hiera-eyaml.publicKeyPath'
+  privateKeyPath = atom.config.get 'hiera-eyaml.privateKeyPath'
+
+  args = args.concat ['--pkcs7-public-key', publicKeyPath] if publicKeyPath
+  args = args.concat ['--pkcs7-private-key', privateKeyPath] if privateKeyPath
+
+
   if data
     options.stdio ?= ['pipe', null, null]
 
   stdout ?= (data) -> console.log data?.toString()
 
   stderr ?= (data) ->
+    publicKeyPath = atom.config.get 'hiera-eyaml.publicKeyPath'
+    privateKeyPath = atom.config.get 'hiera-eyaml.privateKeyPath'
     errorText = data.toString()
     if errorText.match /No such file/
-      errorText += ' in ' + options.cwd
+      if privateKeyPath
+        errorText = "No such private key - #{privateKeyPath}"
+      else if publicKeyPath
+        errorText = "No such public key - #{publicKeyPath}"
+      else
+        errorText += ' in ' + options.cwd
     new StatusView type: 'error', message: errorText
+
 
   bp = new BufferedProcess
     command: command

@@ -7,6 +7,15 @@ module.exports =
     eyamlPath:
       type: 'string'
       default: 'eyaml'
+    defaultDir:
+      type: 'string'
+      default: ''
+    publicKeyPath:
+      type: 'string'
+      default: ''
+    privateKeyPath:
+      type: 'string'
+      default: ''
     messageTimeout:
       type: 'integer'
       default: 5
