@@ -19,6 +19,12 @@ module.exports =
     messageTimeout:
       type: 'integer'
       default: 5
+    wrapInYaml:
+      type: 'boolean'
+      default: false
+    yamlWrapLength:
+      type: 'integer'
+      default: 60
 
   activate: (state) ->
     atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @doSelections eyaml.encrypt
@@ -27,6 +33,24 @@ module.exports =
 
   trim: (str) ->
     str.replace /\s*\n/, ''
+
+  yaml_pretty_print: (range, text, length=40) ->
+    tabWidth = @editor.getTabLength()
+    indentLevel = @editor.indentationForBufferRow(range.start.row)
+    lines = text.length % length
+    newIndent = (indentLevel+1) * tabWidth + 1
+
+    if text.length > 90
+      new_text = ">\n" + Array(newIndent).join ' '
+      arr = []
+      l=0
+      while text.length >= (l * length)
+        arr.push text.slice l*length, l*length+length
+        l++
+      new_text += arr.join "\n#{Array(newIndent).join ' '}"
+      @editor.setTextInBufferRange(range, new_text)
+    else
+      @editor.setTextInBufferRange(range, text)
 
   bufferSetText: (index, crypted) ->
     @count--
@@ -40,15 +64,25 @@ module.exports =
         for i in _.keys @ranges
           selection = @ranges[i]
           if selection.start is point.start
-            @editor.setTextInBufferRange(selection, @crypts[i])
+            if @isYaml
+              @yaml_pretty_print selection, @crypts[i], atom.config.get 'hiera-eyaml.yamlWrapLength'
+            else
+              @editor.setTextInBufferRange selection, @crypts[i]
 
   doSelections: (func) ->
     index = 0
     @ranges = {}
     @crypts = {}
+    @isYaml = false
 
     @editor = atom.workspace.getActiveEditor()
     selectedBufferRanges = @editor.getSelectedBufferRanges()
+
+    doPrettyPrint = atom.config.get 'hiera-eyaml.wrapInYaml'
+
+    if doPrettyPrint and @editor.getRootScopeDescriptor()?[0] == 'source.yaml'
+        @isYaml = true
+
     ## Remove cursor locations which don't have anything selected
     @realSelections = _.reject selectedBufferRanges, (s) -> s.start.isEqual(s.end)
     @count = @realSelections.length ? 0
