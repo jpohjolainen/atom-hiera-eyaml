@@ -1,3 +1,6 @@
+## 0.3.0
+* Added new feature: Wrap encoded string in Yaml.
+
 ## 0.2.0
 * Added new config variables: Default Dir to search ./keys,
   Private Key Path and Public Key Path for direct paths to keys.
