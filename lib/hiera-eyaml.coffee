@@ -38,16 +38,22 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
     new StatusView type: 'error', message: msg
 
   if data
-    bp.process.stdin?.write?(data)
-    bp.process.stdin?.end?()
+    bp.process.stdin?.write(data)
+    bp.process.stdin?.end()
 
-eyamlEncrypt = (text, stdout) ->
+eyamlEncrypt = (text, index, callback) ->
+  stdout = (data) ->
+    callback index, data
+
   eyamlCmd
     args: ['encrypt', '-q', '-o', 'string', '--stdin']
     stdout: stdout
     data: text
 
-eyamlDecrypt = (text, stdout) ->
+eyamlDecrypt = (text, index, callback) ->
+  stdout = (data) ->
+    callback index, data
+
   eyamlCmd
     args: ['decrypt', '-q', '--stdin']
     stdout: stdout
