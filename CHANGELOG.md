@@ -1,3 +1,8 @@
+## 0.3.1
+* Now only restricted to yaml files.
+* Changed some configuration option names.
+* Fixed code.
+
 ## 0.3.0
 * Added new feature: Wrap encoded string in Yaml.
 

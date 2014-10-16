@@ -19,10 +19,10 @@ module.exports =
     messageTimeout:
       type: 'integer'
       default: 5
-    wrapInYaml:
+    wrapEncoded:
       type: 'boolean'
       default: false
-    yamlWrapLength:
+    wrapLength:
       type: 'integer'
       default: 60
 
@@ -34,7 +34,7 @@ module.exports =
   trim: (str) ->
     str.replace /\s*\n/, ''
 
-  yaml_pretty_print: (range, text, length=40) ->
+  wrap: (range, text, length=40) ->
     tabWidth = @editor.getTabLength()
     indentLevel = @editor.indentationForBufferRow(range.start.row)
     lines = text.length % length
@@ -61,27 +61,27 @@ module.exports =
         a.start.compare(b.start)
 
       for point in sorted.reverse()
-        for i in _.keys @ranges
-          selection = @ranges[i]
-          if selection.start is point.start
-            if @isYaml
-              @yaml_pretty_print selection, @crypts[i], atom.config.get 'hiera-eyaml.yamlWrapLength'
-            else
-              @editor.setTextInBufferRange selection, @crypts[i]
+        index = @startPoints[point.start.toString()]
+        selection = @ranges[index]
+        if @wrapEncoded
+          @wrap selection, @crypts[index], atom.config.get 'hiera-eyaml.wrapLength'
+        else
+          @editor.setTextInBufferRange selection, @crypts[i]
 
   doSelections: (func) ->
     index = 0
     @ranges = {}
+    @startPoints = {}
     @crypts = {}
     @isYaml = false
 
     @editor = atom.workspace.getActiveEditor()
+
+    return if @editor.getRootScopeDescriptor()?[0] != 'source.yaml'
+
     selectedBufferRanges = @editor.getSelectedBufferRanges()
 
-    doPrettyPrint = atom.config.get 'hiera-eyaml.wrapInYaml'
-
-    if doPrettyPrint and @editor.getRootScopeDescriptor()?[0] == 'source.yaml'
-        @isYaml = true
+    @wrapEncoded = atom.config.get 'hiera-eyaml.wrapEncoded'
 
     ## Remove cursor locations which don't have anything selected
     @realSelections = _.reject selectedBufferRanges, (s) -> s.start.isEqual(s.end)
@@ -91,6 +91,7 @@ module.exports =
       index++
       selectedText = @editor.getTextInBufferRange(selectionRange)
       @ranges[index] = selectionRange
+      @startPoints[selectionRange.start.toString()] = index
 
       func selectedText, index, (idx, cryptedText) =>
         @bufferSetText idx, @trim(cryptedText)
