@@ -66,7 +66,7 @@ module.exports =
         if @wrapEncoded
           @wrap selection, @crypts[index], atom.config.get 'hiera-eyaml.wrapLength'
         else
-          @editor.setTextInBufferRange selection, @crypts[i]
+          @editor.setTextInBufferRange selection, @crypts[index]
 
   doSelections: (func) ->
     index = 0
