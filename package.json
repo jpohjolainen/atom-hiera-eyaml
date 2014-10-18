@@ -1,7 +1,7 @@
 {
   "name": "hiera-eyaml",
   "main": "./lib/main",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Package to use hiera-eyaml commands in atom.",
   "activationEvents": [
     "hiera-eyaml:encrypt-selection",
