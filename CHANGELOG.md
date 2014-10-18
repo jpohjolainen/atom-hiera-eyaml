@@ -1,3 +1,8 @@
+## 0.4.0
+* New feature: You can choose to either indent one level deeper or as far as
+  to column where the value is.
+* Now removing quotes around strings where encrypting.
+
 ## 0.3.1
 * Now only restricted to yaml files.
 * Changed some configuration option names.

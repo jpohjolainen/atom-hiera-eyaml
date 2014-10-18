@@ -40,6 +40,12 @@ Also wrapping is an option:
     eKTzUgflmH0h9EgBCBe7XgD7ZVLBu3j6YhgL/I]
 ```
 
+New on 0.4.0:
+  You can choose to either indent only one level deeper when outputting a
+  block, or indent to the column where selection starts.
+
+  Encryption now removed quotes around strings.
+
 ### Hiera-eyaml keymaps
 >- `Ctrl-Alt-E` to encrypt selection
 >- `Ctrl-Alt-D` to decrypt selection
