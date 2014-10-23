@@ -85,9 +85,9 @@ module.exports =
       @editor.setIndentationForBufferRow row, level
       row++
 
-  bufferSetText: (index, crypted) ->
+  bufferSetText: (index, text) ->
     @count--
-    @crypts[index] = crypted
+    @crypts[index] = text
 
     if @count <= 0
       sorted = _.values(@ranges).sort (a, b) ->
