@@ -1,3 +1,9 @@
+## 0.4.2
+* Quotes are now only removed if Wrap Encoded is On.
+
+## 0.4.1
+* Small patch
+
 ## 0.4.0
 * New feature: You can choose to either indent one level deeper or as far as
   to column where the value is.
