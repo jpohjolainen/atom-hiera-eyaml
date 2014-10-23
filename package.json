@@ -8,7 +8,7 @@
     "hiera-eyaml:decrypt-selection",
     "hiera-eyaml:create-keys"
   ],
-  "repository": "https://github.com/jpohjolainen/hiera-eyaml",
+  "repository": "https://github.com/jpohjolainen/atom-hiera-eyaml",
   "license": "MIT",
   "engines": {
     "atom": ">0.135.0"

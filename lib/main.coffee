@@ -31,8 +31,8 @@ module.exports =
       default: false
 
   activate: (state) ->
-    atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @doSelections eyaml.encrypt
-    atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @doSelections eyaml.decrypt
+    atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @doCrypt 'encrypt'
+    atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @doCrypt 'decrypt'
     atom.workspaceView.command 'hiera-eyaml:create-keys', => @createKeys()
 
   trim: (str) ->
@@ -102,51 +102,74 @@ module.exports =
           @wrap selection, @crypts[index], @wrapLength
         else
           @editor.setTextInBufferRange selection, @crypts[index]
+
       @editor.getBuffer().commitTransaction()
 
-  doSelections: (func) ->
-    index = 0
+  isQuotedString: (selectionRange) ->
+    cursorScope = @editor.scopeDescriptorForBufferPosition(selectionRange.start)
+
+    scopes = _.find(cursorScope, (scope) ->
+      scope in ['string.quoted.single.yaml', 'string.quoted.double.yaml']
+    )
+
+    scopes?
+
+  hasQuotes: (string) ->
+    (string[0] == "'" or string[0] == '"')
+
+  getSelectedText: (selectionRange) ->
     @ranges = {}
     @startPoints = {}
     @crypts = {}
+
+    selectedText = @editor.getTextInBufferRange(selectionRange)
+
+    if @wrapEncoded and @isQuotedString(selectionRange) and not @hasQuotes(selectedText)
+      startPoint = new Point(selectionRange.start.row, selectionRange.start.column - 1)
+      endPoint = new Point(selectionRange.end.row, selectionRange.end.column + 1)
+      selectionRange = new Range(startPoint, endPoint)
+
+    @ranges[@index] = selectionRange
+    @editor.setSelectedBufferRange(selectionRange)
+
+    @startPoints[selectionRange.start.toString()] = @index
+
+    selectedText
+
+  getConfig: () ->
     @wrapEncoded = atom.config.get 'hiera-eyaml.wrapEncoded'
     @wrapLength = atom.config.get 'hiera-eyaml.wrapLength'
     @indentToColumn = atom.config.get 'hiera-eyaml.indentToColumn'
-
     @editor = atom.workspace.getActiveEditor()
+
+  doCrypt: (type) ->
+    @index = 0
+    @addQuotes = false
+
+    @getConfig()
 
     return if @editor.getRootScopeDescriptor()?[0] != 'source.yaml'
 
     selectedBufferRanges = @editor.getSelectedBufferRanges()
-
     ## Remove cursor locations which don't have anything selected
     @realSelections = _.reject selectedBufferRanges, (s) -> s.start.isEqual(s.end)
+
     @count = @realSelections.length ? 0
 
+    @type == type
+
+    if type == 'encrypt'
+      funx = eyaml.encrypt
+    else
+      funx = eyaml.decrypt
+      @addQuotes = true
+
     for selectionRange in @realSelections
-      index++
-      selectedText = @editor.getTextInBufferRange(selectionRange)
-      cursorScope = @editor.scopeDescriptorForBufferPosition(selectionRange.start)
-
-      quotedString = _.find(cursorScope, (scope) ->
-        if scope in ['string.quoted.single.yaml', 'string.quoted.double.yaml']
-          true
-        else
-          false
-      )
-
-      if quotedString?
-        startPoint = new Point(selectionRange.start.row, selectionRange.start.column - 1)
-        endPoint = new Point(selectionRange.end.row, selectionRange.end.column + 1)
-        selectionRange = new Range(startPoint, endPoint)
-
-      @ranges[index] = selectionRange
-      @editor.setSelectedBufferRange(selectionRange)
-
-      @startPoints[selectionRange.start.toString()] = index
-
-      func selectedText, index, (idx, cryptedText) =>
-        @bufferSetText idx, @trim(cryptedText)
+      @index++
+      selectedText = @getSelectedText(selectionRange)
+      funx selectedText, @index, (idx, text) =>
+        output = @trim(text)
+        @bufferSetText idx, output
 
   createKeys: ->
     view = new CreateKeysView()
