@@ -148,7 +148,12 @@ module.exports =
 
     @getConfig()
 
-    return if @editor.getRootScopeDescriptor()?[0] != 'source.yaml'
+    rootScopes = @editor.getRootScopeDescriptor()?.getScopesArray()
+    rootScopes ?= @editor.getRootScopeDescriptor()
+
+    if not ("source.yaml" in rootScopes)
+      console.log "Not a YAML file. Scope: " + rootScopes
+      return
 
     selectedBufferRanges = @editor.getSelectedBufferRanges()
     ## Remove cursor locations which don't have anything selected
