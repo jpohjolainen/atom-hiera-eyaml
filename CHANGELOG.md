@@ -1,3 +1,6 @@
+## 0.4.3
+* Fixed scope matching.
+
 ## 0.4.2
 * Quotes are now only removed if Wrap Encoded is On.
 
