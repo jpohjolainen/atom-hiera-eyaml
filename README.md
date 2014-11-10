@@ -45,14 +45,7 @@ Also wrapping is an option:
 		XkX7r2fSgG4CUK4jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBo6hA3GV
 		eKTzUgflmH0h9EgBCBe7XgD7ZVLBu3j6YhgL/I]
 ```
-
-0.4.0:
-	You can choose to either indent only one level deeper when outputting a
-	block, or indent to the column where selection starts.
-
-0.4.2:
-	Quotes are removed only if Wrap Encoded is on.
-
+  
 ### Hiera-eyaml keymaps
 
 >- `Ctrl-Alt-E` to encrypt selection

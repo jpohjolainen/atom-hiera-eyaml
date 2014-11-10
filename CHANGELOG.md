@@ -1,3 +1,6 @@
+## 0.4.4
+* Encrypting or decrypting multiple selections is fixed.
+
 ## 0.4.3
 * Fixed scope matching.
 
