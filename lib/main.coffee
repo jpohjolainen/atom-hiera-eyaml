@@ -30,10 +30,11 @@ module.exports =
       type: 'boolean'
       default: false
 
-  activate: (state) ->
-    atom.workspaceView.command 'hiera-eyaml:encrypt-selection', => @doCrypt 'encrypt'
-    atom.workspaceView.command 'hiera-eyaml:decrypt-selection', => @doCrypt 'decrypt'
-    atom.workspaceView.command 'hiera-eyaml:create-keys', => @createKeys()
+  activate: ->
+    atom.commands.add 'atom-text-editor',
+      'hiera-eyaml:encrypt-selection': => @doCrypt 'encrypt'
+      'hiera-eyaml:decrypt-selection': => @doCrypt 'decrypt'
+      'hiera-eyaml:create-keys': => @createKeys()
 
   trim: (str) ->
     str.replace /\s*\n$/, ''

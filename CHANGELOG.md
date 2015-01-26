@@ -1,3 +1,6 @@
+## 0.4.6
+* Resolved depracated warnings.
+
 ## 0.4.5
 * Updated package info
 
