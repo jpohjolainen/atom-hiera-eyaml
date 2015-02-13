@@ -1,7 +1,7 @@
 {
   "name": "hiera-eyaml",
   "main": "./lib/main",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Package to use hiera-eyaml commands in atom.",
   "repository": "https://github.com/jpohjolainen/atom-hiera-eyaml",
   "license": "MIT",
