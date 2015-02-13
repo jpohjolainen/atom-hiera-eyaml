@@ -1,3 +1,6 @@
+## 0.4.7
+* Fixed keymaps.
+
 ## 0.4.6
 * Resolved depracated warnings.
 
