@@ -1,5 +1,4 @@
 {BufferedProcess} = require 'atom'
-StatusView = require './status-view.coffee'
 utils = require './utils'
 
 eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
@@ -30,7 +29,7 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
         errorText = "No such public key - #{publicKeyPath}"
       else
         errorText += ' in ' + options.cwd
-    new StatusView type: 'error', message: errorText
+    atom.notifications.addError(errorText)
 
 
   bp = new BufferedProcess
@@ -50,7 +49,7 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
       msg = "Error executing '#{error.path}', check settings!"
     else
       msg = error.message
-    new StatusView type: 'error', message: msg
+    atom.notifications.addError(msg)
 
   if data
     bp.process.stdin?.write(data)

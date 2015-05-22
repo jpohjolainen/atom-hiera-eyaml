@@ -1,3 +1,6 @@
+## 0.5.2
+* Updated messages to use notification API.
+
 ## 0.5.1
 * Fixed error messages.
 
