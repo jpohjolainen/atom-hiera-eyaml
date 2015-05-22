@@ -1,4 +1,5 @@
-{$, BufferedProcess, EditorView, View} = require 'atom'
+{BufferedProcess} = require 'atom'
+{$, View, EditorView} = require 'atom-space-pen-views'
 fs = require 'fs'
 eyaml = require './hiera-eyaml'
 StatusView = require './status-view.coffee'

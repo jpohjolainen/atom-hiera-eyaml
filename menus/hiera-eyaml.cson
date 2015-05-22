@@ -1,18 +1,18 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
-  '.overlayer':
-      'eyaml encrypt': 'hiera-eyaml:encrypt-selection'
-      'eyaml decrypt': 'hiera-eyaml:encrypt-selection'
+  'atom-workspace': [
+    {label: 'eyaml encrypt', command: 'hiera-eyaml:encrypt-selection'},
+    {label: 'eyaml decrypt', command: 'hiera-eyaml:encrypt-selection'}]
 
 'menu': [
   {
-    'label': 'Packages'
-    'submenu': [
-      'label': 'Hiera eyaml'
-      'submenu': [
-        { 'label': 'Create Keys', 'command': 'hiera-eyaml:create-keys' }
-        { 'label': 'Encrypt Selection', 'command': 'hiera-eyaml:encrypt-selection' }
-        { 'label': 'Decrypt Selection', 'command': 'hiera-eyaml:decrypt-selection' }
+    label: 'Packages'
+    submenu: [
+      label: 'Hiera eyaml'
+      submenu: [
+        { label: 'Create Keys', command: 'hiera-eyaml:create-keys' }
+        { label: 'Encrypt Selection', command: 'hiera-eyaml:encrypt-selection' }
+        { label: 'Decrypt Selection', command: 'hiera-eyaml:decrypt-selection' }
       ]
     ]
   }

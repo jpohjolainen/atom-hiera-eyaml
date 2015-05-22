@@ -1,3 +1,6 @@
+## 0.5
+* Updated to match new API calls and get rid of deprecation warnings.
+
 ## 0.4.7
 * Fixed keymaps.
 

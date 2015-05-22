@@ -8,8 +8,8 @@ dir = ->
   return projectDir if projectDir
 
   project = atom.project
-  projectDir = project.getRepo()?.getWorkingDirectory() ? project.getPath()
-  filePath = atom.workspace.getActiveEditor()?.getBuffer().getPath()
+  projectDir = project.getRepositories()?[0].getWorkingDirectory() ? project.getPath()
+  filePath = atom.workspace.getActiveTextEditor()?.getBuffer().getPath()
 
   projectDir = switch
     when projectDir then projectDir

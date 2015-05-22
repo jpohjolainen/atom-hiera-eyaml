@@ -96,7 +96,7 @@ module.exports =
       sorted = _.values(@ranges).sort (a, b) ->
         a.start.compare(b.start)
 
-      @editor.getBuffer().beginTransaction()
+      cp = @editor.getBuffer().createCheckpoint()
 
       for point in sorted.reverse()
         index = @startPoints[point.start.toString()]
@@ -106,7 +106,8 @@ module.exports =
         else
           @editor.setTextInBufferRange selection, @crypts[index]
 
-      @editor.getBuffer().commitTransaction()
+      #@editor.getBuffer().commitTransaction()
+      @editor.getBuffer().groupChangesSinceCheckpoint(cp)
 
   isQuotedString: (selectionRange) ->
     cursorScopeObject = @editor.scopeDescriptorForBufferPosition(selectionRange.start)
@@ -138,7 +139,7 @@ module.exports =
     @wrapEncoded = atom.config.get 'hiera-eyaml.wrapEncoded'
     @wrapLength = atom.config.get 'hiera-eyaml.wrapLength'
     @indentToColumn = atom.config.get 'hiera-eyaml.indentToColumn'
-    @editor = atom.workspace.getActiveEditor()
+    @editor = atom.workspace.getActiveTextEditor()
 
   doCrypt: (type) ->
     @rangeIndex = 0
