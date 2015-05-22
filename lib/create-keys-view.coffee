@@ -1,5 +1,5 @@
 {BufferedProcess} = require 'atom'
-{$, View, EditorView} = require 'atom-space-pen-views'
+{$, View, TextEditorView} = require 'atom-space-pen-views'
 fs = require 'fs'
 eyaml = require './hiera-eyaml'
 StatusView = require './status-view.coffee'
@@ -11,12 +11,11 @@ class CreateKeysView extends View
 
   @content: ->
     @div class: 'hiera-eyaml overlay from-top', =>
-      @subview 'miniEditor', new EditorView(mini: true)
+      @subview 'miniEditor', new TextEditorView(mini: true)
       @div class: 'error', outlet: 'error'
       @div class: 'message', outlet: 'message'
 
   initialize: ->
-    @miniEditor.hiddenInput.on 'focusout', => @detach()
     @on 'core:confirm', => @confirm()
     @on 'core:cancel', => @detach()
     @error.hide()
@@ -29,9 +28,8 @@ class CreateKeysView extends View
     @miniEditor.focus()
 
   setPathText: (text) ->
-    {editor} = @miniEditor
-    editor.setText(text)
-    pathLength = editor.getText().length
+    @miniEditor.setText(text)
+    pathLength = @miniEditor.getText().length
 
   detach: ->
     return unless @hasParent()

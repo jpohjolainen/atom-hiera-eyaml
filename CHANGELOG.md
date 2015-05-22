@@ -1,3 +1,6 @@
+## 0.5.1
+* Fixed error messages.
+
 ## 0.5
 * Updated to match new API calls and get rid of deprecation warnings.
 
