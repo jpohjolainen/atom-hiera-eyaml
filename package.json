@@ -8,9 +8,11 @@
   "engines": {
     "atom": ">0.190.0"
   },
-  "activationEvents": [ "hiera-eyaml:encrypt-selection",
-                        "hiera-eyaml:decrypt-selection",
-                        "hiera-eyaml:create-keys" ],
+  "activationCommands": {
+    "atom-text-editor": [ "hiera-eyaml:encrypt-selection",
+                          "hiera-eyaml:decrypt-selection",
+                          "hiera-eyaml:create-keys" ]
+  },
   "dependencies": {
     "underscore-plus": "1.x",
     "atom-space-pen-views": "^2.0.3"
