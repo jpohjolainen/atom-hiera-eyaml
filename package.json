@@ -1,7 +1,7 @@
 {
   "name": "hiera-eyaml",
   "main": "./lib/main",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Package to use hiera-eyaml commands in atom.",
   "repository": "https://github.com/jpohjolainen/atom-hiera-eyaml",
   "license": "MIT",
@@ -9,9 +9,11 @@
     "atom": ">0.190.0"
   },
   "activationCommands": {
-    "atom-text-editor": [ "hiera-eyaml:encrypt-selection",
-                          "hiera-eyaml:decrypt-selection",
-                          "hiera-eyaml:create-keys" ]
+    "atom-text-editor": [
+      "hiera-eyaml:encrypt-selection",
+      "hiera-eyaml:decrypt-selection",
+      "hiera-eyaml:create-keys"
+    ]
   },
   "dependencies": {
     "underscore-plus": "1.x",
