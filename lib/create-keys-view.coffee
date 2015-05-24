@@ -13,24 +13,18 @@ class CreateKeysView extends View
       @subview 'miniEditor', new TextEditorView(mini: true)
       @div class: 'message', outlet: 'message'
 
-  constructor: ->
-    @disposables = new CompositeDisposable
-    super
-
   initialize: ->
-    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
-      'core:confirm': => @confirm()
-    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
-      'core:cancel': => @detach()
-      'core:close': => @detach()
-
-  destroy: ->
-    @disposables?.dispose()
+    @disposables = new CompositeDisposable
 
   attach: ->
     @prevFocus = $(':focus')
     @message.text("Give a path where keys directory is created.")
     @panel = atom.workspace.addTopPanel(item: this)
+    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
+      'core:confirm': => @confirm()
+    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
+      'core:cancel': => @detach()
+      'core:close': => @detach()
     @disposables.add new Disposable =>
       @panel.destroy()
       @panel = null
