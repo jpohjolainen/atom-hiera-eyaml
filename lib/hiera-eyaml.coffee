@@ -57,7 +57,7 @@ eyamlCmd = ({args, options, stdout, stderr, exit, data}={}) ->
 
 eyamlEncrypt = (text, index, callback) ->
   stdout = (data) ->
-    callback index, data
+    callback index, data, true
 
   eyamlCmd
     args: ['encrypt', '-q', '-o', 'string', '--stdin']
@@ -66,7 +66,7 @@ eyamlEncrypt = (text, index, callback) ->
 
 eyamlDecrypt = (text, index, callback) ->
   stdout = (data) ->
-    callback index, data
+    callback index, data, false
 
   eyamlCmd
     args: ['decrypt', '-q', '--stdin']

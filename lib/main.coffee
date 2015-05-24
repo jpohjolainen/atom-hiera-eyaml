@@ -31,6 +31,7 @@ module.exports =
       default: false
 
   activate: ->
+    console.log "activate hiera-eyaml."
     atom.commands.add 'atom-text-editor',
       'hiera-eyaml:encrypt-selection': => @doCrypt 'encrypt'
       'hiera-eyaml:decrypt-selection': => @doCrypt 'decrypt'
@@ -46,8 +47,6 @@ module.exports =
     indent = false
     text = text.replace /^\s*>\s+/, ''
     multiLine = text.split /[\n\r]/
-
-    return if @type == 'decrypt'
 
     if multiLine.length == 1 and text.length >= length
       while text.length >= (lines * length)
@@ -73,14 +72,14 @@ module.exports =
 
     if indent
       indentLevel = @editor.indentationForBufferRow(range.start.row)
-      tabWidth = @editor.getTabLength()
+      tabLength = @editor.getTabLength()
 
       if @indentToColumn
-        indentLevelNew = startPoint.column / tabWidth
+        indentLevelNew = startPoint.column / tabLength
       else
         indentLevelNew = indentLevel + 1
 
-      @indentRows(startPoint, endPoint, indentLevelNew)
+      @indentRows startPoint, endPoint, indentLevelNew
 
   indentRows: (start, end, level=1) ->
     row = start.row
@@ -88,25 +87,26 @@ module.exports =
       @editor.setIndentationForBufferRow row, level
       row++
 
-  bufferSetText: (idx, text) ->
-    @count--
-    @crypts[idx] = text
+  bufferSetText: (idx, text, isCrypted) ->
+    @selectionCount--
+    @returnBuffer[idx] = text
 
-    if @count <= 0
+    ## Change selections only after all has been encrypted.
+    if @selectionCount <= 0
       sorted = _.values(@ranges).sort (a, b) ->
         a.start.compare(b.start)
 
       cp = @editor.getBuffer().createCheckpoint()
 
+      ## Apply changes in reverse to circumvent overlapping ranges.
       for point in sorted.reverse()
         index = @startPoints[point.start.toString()]
-        selection = @ranges[index]
-        if @wrapEncoded
-          @wrap selection, @crypts[index], @wrapLength
+        selectionRange = @ranges[index]
+        if isCrypted and @wrapEncoded
+          @wrap selectionRange, @returnBuffer[index], @wrapLength
         else
-          @editor.setTextInBufferRange selection, @crypts[index]
+          @editor.setTextInBufferRange selectionRange, @returnBuffer[index]
 
-      #@editor.getBuffer().commitTransaction()
       @editor.getBuffer().groupChangesSinceCheckpoint(cp)
 
   isQuotedString: (selectionRange) ->
@@ -143,10 +143,9 @@ module.exports =
 
   doCrypt: (type) ->
     @rangeIndex = 0
-    @addQuotes = false
     @startPoints = {}
     @ranges = {}
-    @crypts = {}
+    @returnBuffer = {}
 
     @getConfig()
 
@@ -161,23 +160,20 @@ module.exports =
     ## Remove cursor locations which don't have anything selected
     @realSelections = _.reject selectedBufferRanges, (s) -> s.start.isEqual(s.end)
 
-    @count = @realSelections.length ? 0
-
-    @type == type
+    @selectionCount = @realSelections.length ? 0
 
     if type == 'encrypt'
       funx = eyaml.encrypt
     else
       funx = eyaml.decrypt
-      @addQuotes = true
 
     for selectionRange in @realSelections
       @ranges[@rangeIndex] = selectionRange
       @startPoints[selectionRange.start.toString()] = @rangeIndex
       selectedText = @getSelectedText(selectionRange)
-      funx selectedText, @rangeIndex, (idx, text) =>
+      funx selectedText, @rangeIndex, (idx, text, isCrypted) =>
         output = @trim(text)
-        @bufferSetText idx, output
+        @bufferSetText idx, output, isCrypted
       @rangeIndex++
 
   createKeys: ->
