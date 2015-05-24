@@ -1,3 +1,9 @@
+## 0.5.3
+* Updated activationEvents to activationCommands for new API
+* Refactored code
+* Added activationEvents
+* refactored CreateKeysView
+
 ## 0.5.2
 * Updated messages to use notification API.
 
