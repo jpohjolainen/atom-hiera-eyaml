@@ -1,6 +1,8 @@
 
-#### [Current]
-
+#### v0.5.4
+ * [6d9fdd7](../../commit/6d9fdd7) - __(Janne Pohjolainen)__ Added first specs
+ * [01d5bee](../../commit/01d5bee) - __(Janne Pohjolainen)__ changed to use @element
+ * [ea8cbb4](../../commit/ea8cbb4) - __(Janne Pohjolainen)__ new CHANGELOG done with katip
 
 #### v0.5.3
  * [4b757dc](../../commit/4b757dc) - __(Janne Pohjolainen)__ Prepare 0.5.3 release
