@@ -1,5 +1,11 @@
 
+#### [Current]
+ * [206aa8e](../../commit/206aa8e) - __(Janne Pohjolainen)__ Changed create-keys to work even without focus on editor.
+ * [d83e2e7](../../commit/d83e2e7) - __(Janne Pohjolainen)__ Fixed deprecated getPath to getPaths
+
 #### v0.5.6
+ * [7ee9a90](../../commit/7ee9a90) - __(Janne Pohjolainen)__ Prepare 0.5.6 release
+ * [ce404ec](../../commit/ce404ec) - __(Janne Pohjolainen)__ CHANGELOG updated
  * [ef1141d](../../commit/ef1141d) - __(Janne Pohjolainen)__ New view panel in bottom for create-keys
 
 #### v0.5.5
