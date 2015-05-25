@@ -6,20 +6,26 @@ utils = require './utils'
 
 module.exports =
 class CreateKeysView extends View
-  prevFocus: null
 
   @content: ->
-    @div class: 'hiera-eyaml panel-top', =>
-      @subview 'miniEditor', new TextEditorView(mini: true)
-      @div class: 'message', outlet: 'message'
+    @div tabIndex: -1, class: 'hiera-eyaml', =>
+      @header class: 'header', =>
+        @span outlet: 'descriptionLabel', class: 'header-item description',
+          'Give a path where the keys directory will created.'
+      @section class: 'input-block keys-directory-container', =>
+        @div class: 'input-block-item editor-container', =>
+          @subview 'miniEditor', new TextEditorView(mini: true)
+        @div class: 'input-block-item buttons', =>
+          @button outlet: 'confirmButton', class: 'btn btn-confirm', 'Confirm'
+          @button outlet: 'cancelButton', class: 'btn btn-cancel', 'Cancel'
+
 
   initialize: ->
     @disposables = new CompositeDisposable
+    @editor = atom.workspace.getActiveTextEditor()
 
   attach: ->
-    @prevFocus = $(':focus')
-    @message.text("Give a path where keys directory is created.")
-    @panel = atom.workspace.addTopPanel(item: this)
+    @panel = atom.workspace.addBottomPanel(item: this)
     @disposables.add atom.commands.add @element,
       'core:confirm': => @confirm()
     @disposables.add atom.commands.add @element,
@@ -28,6 +34,8 @@ class CreateKeysView extends View
     @disposables.add new Disposable =>
       @panel.destroy()
       @panel = null
+    @confirmButton.on 'click', => @confirm()
+    @cancelButton.on 'click', => @detach()
     @setPathText(utils.dir())
     @miniEditor.focus()
 
@@ -36,7 +44,7 @@ class CreateKeysView extends View
 
   detach: ->
     @disposables?.dispose()
-    @prevFocus?.focus()
+    atom.views.getView(atom.workspace).focus()
 
   confirm: ->
     if @validKeysPath()

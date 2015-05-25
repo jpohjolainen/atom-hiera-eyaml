@@ -5,4 +5,47 @@
 @import "ui-variables";
 
 .hiera-eyaml {
+  @min-width: 400px; // min width before it starts scrolling
+  @item-width: 260px;
+
+  -webkit-user-select: none;
+  padding: @component-padding/2;
+  overflow-x: auto;
+
+  .header {
+    padding: @component-padding/4 @component-padding/2;
+    margin: @component-padding/4 0;
+    min-width: @min-width;
+  }
+
+  .description {
+    color: @text-color-info;
+    position: relative;
+    .options {
+      color: @text-color;
+    }
+  }
+
+  .input-block {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: @min-width;
+  }
+  .input-block-item {
+    display: flex;
+    flex: 1;
+    padding: @component-padding / 2;
+  }
+
+  .btn {
+    margin-right: 10px;
+  }
+
+  .editor-container {
+    position: relative;
+    atom-text-editor {
+      width: 100%;
+    }
+  }
 }
