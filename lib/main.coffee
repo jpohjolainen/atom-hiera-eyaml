@@ -35,6 +35,7 @@ module.exports =
     atom.commands.add 'atom-text-editor',
       'hiera-eyaml:encrypt-selection': => @doCrypt 'encrypt'
       'hiera-eyaml:decrypt-selection': => @doCrypt 'decrypt'
+    atom.commands.add 'atom-workspace',
       'hiera-eyaml:create-keys': => @createKeys()
 
   trim: (str) ->

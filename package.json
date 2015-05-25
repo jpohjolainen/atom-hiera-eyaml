@@ -9,10 +9,12 @@
     "atom": ">0.190.0"
   },
   "activationCommands": {
+    "atom-workspace": [
+      "hiera-eyaml:create-keys"
+    ],
     "atom-text-editor": [
       "hiera-eyaml:encrypt-selection",
-      "hiera-eyaml:decrypt-selection",
-      "hiera-eyaml:create-keys"
+      "hiera-eyaml:decrypt-selection"
     ]
   },
   "dependencies": {
