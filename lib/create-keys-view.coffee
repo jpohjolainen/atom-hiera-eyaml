@@ -20,9 +20,9 @@ class CreateKeysView extends View
     @prevFocus = $(':focus')
     @message.text("Give a path where keys directory is created.")
     @panel = atom.workspace.addTopPanel(item: this)
-    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
+    @disposables.add atom.commands.add @element,
       'core:confirm': => @confirm()
-    @disposables.add atom.commands.add 'atom-text-editor.editor.mini',
+    @disposables.add atom.commands.add @element,
       'core:cancel': => @detach()
       'core:close': => @detach()
     @disposables.add new Disposable =>
