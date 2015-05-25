@@ -1,5 +1,10 @@
 
 #### [Current]
+
+
+#### v0.5.7
+ * [417d47e](../../commit/417d47e) - __(Janne Pohjolainen)__ Prepare 0.5.7 release
+ * [1aa4233](../../commit/1aa4233) - __(Janne Pohjolainen)__ CHANGELOG updated.
  * [206aa8e](../../commit/206aa8e) - __(Janne Pohjolainen)__ Changed create-keys to work even without focus on editor.
  * [d83e2e7](../../commit/d83e2e7) - __(Janne Pohjolainen)__ Fixed deprecated getPath to getPaths
 
