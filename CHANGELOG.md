@@ -1,5 +1,14 @@
 
+#### v0.5.6
+ * [ef1141d](../../commit/ef1141d) - __(Janne Pohjolainen)__ New view panel in bottom for create-keys
+
+#### v0.5.5
+ * [ad5e2ff](../../commit/ad5e2ff) - __(Janne Pohjolainen)__ Prepare 0.5.5 release
+ * [45e19a1](../../commit/45e19a1) - __(Janne Pohjolainen)__ Fixed error when no repositories couldn't be found.
+
 #### v0.5.4
+ * [f6d83de](../../commit/f6d83de) - __(Janne Pohjolainen)__ Prepare 0.5.4 release
+ * [2505497](../../commit/2505497) - __(Janne Pohjolainen)__ updated CHANGELOG
  * [6d9fdd7](../../commit/6d9fdd7) - __(Janne Pohjolainen)__ Added first specs
  * [01d5bee](../../commit/01d5bee) - __(Janne Pohjolainen)__ changed to use @element
  * [ea8cbb4](../../commit/ea8cbb4) - __(Janne Pohjolainen)__ new CHANGELOG done with katip
