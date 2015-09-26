@@ -1,6 +1,10 @@
 
 #### [Current]
+ * [05c7249](../../commit/05c7249) - __(Janne Pohjolainen)__ fixed eyaml decrypt on context menu.
 
+#### v0.6.0
+ * [2533119](../../commit/2533119) - __(Janne Pohjolainen)__ Prepare 0.6.0 release
+ * [21e5301](../../commit/21e5301) - __(Janne Pohjolainen)__ CHANGELOG updated.
 
 #### v0.5.7
  * [417d47e](../../commit/417d47e) - __(Janne Pohjolainen)__ Prepare 0.5.7 release
