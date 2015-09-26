@@ -2,7 +2,7 @@
 'context-menu':
   'atom-workspace': [
     {label: 'eyaml encrypt', command: 'hiera-eyaml:encrypt-selection'},
-    {label: 'eyaml decrypt', command: 'hiera-eyaml:encrypt-selection'}]
+    {label: 'eyaml decrypt', command: 'hiera-eyaml:decrypt-selection'}]
 
 'menu': [
   {
